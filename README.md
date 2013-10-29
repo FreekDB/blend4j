@@ -15,6 +15,11 @@ For simplicity, these examples assume the following import statements are used t
     import com.github.jmchilton.blend4j.galaxy.beans.*;
     import com.github.jmchilton.blend4j.galaxy.*;
 
+Put a .blend.properties file in your home directory to specify the Galaxy instance and API key to blend4j:
+
+    test.galaxy.instance=https://usegalaxy.org/
+    test.galaxy.key=7cb.........................79fc (put your API key in here)
+
 Listing current users history:
 
 ```java
