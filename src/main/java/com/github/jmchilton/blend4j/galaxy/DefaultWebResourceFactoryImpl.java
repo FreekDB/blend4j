@@ -17,10 +17,16 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
   public static String API_PATH = "api";
   private String url;
   private String key;
+  private boolean debug;
 
-  public DefaultWebResourceFactoryImpl(final String url, final String key) {
+  public DefaultWebResourceFactoryImpl(final String url, final String key, final boolean debug) {
     this.url = url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
     this.key = key;
+    this.debug = debug;
+  }
+
+  public DefaultWebResourceFactoryImpl(final String url, final String key) {
+    this(url, key, DEBUG);
   }
 
   /**
@@ -63,7 +69,7 @@ public class DefaultWebResourceFactoryImpl implements WebResourceFactory {
     final ClientConfig clientConfig = new DefaultClientConfig();
     clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
     com.sun.jersey.api.client.Client client = com.sun.jersey.api.client.Client.create(clientConfig);
-    if(DEBUG) {
+    if(this.debug) {
       client.addFilter(new LoggingFilter(System.out));
     }
     return client;

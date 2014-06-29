@@ -3,6 +3,7 @@ package com.github.jmchilton.blend4j.galaxy;
 import java.util.List;
 
 import com.github.jmchilton.blend4j.galaxy.beans.User;
+import com.github.jmchilton.blend4j.galaxy.beans.UserCreate;
 import com.sun.jersey.api.client.ClientResponse;
 
 public interface UsersClient {
@@ -12,5 +13,11 @@ public interface UsersClient {
 
   User createUser(final String remoteUserEmail);
 
+  ClientResponse createUserRequest(final UserCreate userCreate);
+
+  User createUser(final UserCreate userCreate);
+
+  String createApiKey(final String userId);
+  
   User showUser(String id);
 }

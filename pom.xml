@@ -4,7 +4,7 @@
   <groupId>com.github.jmchilton.blend4j</groupId>
   <artifactId>blend4j</artifactId>
   <packaging>jar</packaging>
-  <version>0.1-alpha-2-SNAPSHOT</version>
+  <version>0.2.0-SNAPSHOT</version>
   <name>blend4j</name>
   <description>blend4j is a JVM partial reimplemenation of the Python library bioblend (http://bioblend.readthedocs.org/en/latest/) for interacting with Galaxy, CloudMan, and BioCloudCentral.</description>
   <parent>
@@ -17,6 +17,22 @@
     <developerConnection>scm:git:git@github.com:jmchilton/blend4j.git</developerConnection>
     <url>git@github.com:jmchilton/blend4j.git</url>
   </scm>
+  <issueManagement>
+    <system>Github</system>
+    <url>http://github.com/jmchilton/blend4j/issues</url>
+  </issueManagement>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <properties>
+    <!-- github server corresponds to entry in ~/.m2/settings.xml -->
+    <github.global.server>github</github.global.server>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>com.sun.jersey</groupId>
@@ -63,12 +79,76 @@
     <dependency>
       <groupId>com.github.jmchilton.galaxybootstrap</groupId>
       <artifactId>galaxybootstrap</artifactId>
-      <version>0.2.0-rc1</version>
+      <version>0.3.0</version>
       <scope>test</scope>
     </dependency>
-
-
   </dependencies>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.7</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+              <report>dependencies</report>
+              <report>issue-tracking</report>
+              <report>license</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <configuration>
+          <docfilessubdirs>true</docfilessubdirs>
+          <!-- (1) CSS file location -->
+           <!-- (2) SyntaxHighlighter Javascript files -->
+          <top><![CDATA[
+          <script type="text/javascript">
+          var fileref=document.createElement("link");
+          fileref.setAttribute("rel", "stylesheet");
+          fileref.setAttribute("type", "text/css");
+          fileref.setAttribute("href", "resources/syntaxhighlighterstyle.css");
+          document.getElementsByTagName("head")[0].appendChild(fileref);
+          </script>
+          <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+          <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJava.js" type="text/javascript"></script>
+          ]]></top>
+          <!--
+              (3) SyntaxHighlighter configuration and initialization
+              See: http://alexgorbatchev.com/SyntaxHighlighter/manual/configuration/
+          -->
+          <footer><![CDATA[
+          <script type="text/javascript">
+          SyntaxHighlighter.defaults["auto-links"] = false;
+          SyntaxHighlighter.defaults["tab-size"] = 2;
+          SyntaxHighlighter.all();
+          </script>
+          ]]></footer>
+        </configuration>
+        <reportSets>
+          <reportSet><!-- by default, id = "default" -->
+            <reports><!-- select non-aggregate reports -->
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+          <reportSet><!-- aggregate reportSet, to define in poms having modules -->
+            <id>aggregate</id>
+            <inherited>false</inherited><!-- don't run aggregate in child modules -->
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
   <profiles>
     <profile>
       <id>release-sign-artifacts</id>
@@ -97,8 +177,26 @@
         </plugins>
       </build>
     </profile>
-  </profiles>  
+  </profiles>
   <build>
+    <plugins>
+      <plugin>
+        <groupId>com.github.github</groupId>
+        <artifactId>site-maven-plugin</artifactId>
+        <version>0.9</version>
+        <configuration>
+          <message>Creating site for ${project.version}</message>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>site</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -110,8 +208,40 @@
             <compilerArgument />
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <preparationGoals>clean install verify</preparationGoals>
+            <goals>clean install javadoc:jar source:jar gpg:sign verify deploy</goals>
+            <arguments>-Dmaven.test.skip=true</arguments>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
-
 </project>
