@@ -56,5 +56,4 @@ public class HistoriesTest {
 
     Assert.assertEquals("just-checking", instance.getApiKey());
   }
-  
 }
