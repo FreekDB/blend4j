@@ -6,6 +6,8 @@ import com.github.jmchilton.blend4j.galaxy.beans.HistoryExport;
 import com.sun.jersey.api.client.ClientResponse;
 import java.io.File;
 import java.util.List;
+
+import org.junit.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -51,6 +53,8 @@ public class HistoriesTest {
     final List<HistoryContents> contentsList = historiesClient.showHistoryContents(historyId);
     final HistoryContents contents = contentsList.get(0);
     final HistoryContentsProvenance prov = historiesClient.showProvenance(historyId, contents.getId());    
+
+    Assert.assertEquals("just-checking", instance.getApiKey());
   }
   
 }
