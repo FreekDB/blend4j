@@ -10,11 +10,22 @@ with Galaxy, CloudMan, and BioCloudCentral.
 
 # Usage
 
-blend4j's [JavaDocs][api] contain some quick usage examples. Many more examples can be found in  @apetkau's [blend4j tutorials][tutorial] and the [integration tests][tests].
+blend4j's [JavaDocs][api] contain some quick usage examples. Many more
+examples can be found in  [Aaron Petkau][apetkau]'s [blend4j tutorials][tutorial]
+and the [integration tests][tests]. Examples of using
+blend4j in larger open source projects include [Molgenis integration][molgensis] by [Dennis Hendriksen][dennishendriksen] and the
+[TraIT Workflow Runner][trait] for use with
+[tranSMART][transmart] by [Freek de Bruijn][freekdb].
 
 [api]: http://jmchilton.github.io/blend4j/apidocs/
 [tutorial]: https://github.com/apetkau/blend4j-tutorials
 [tests]: https://github.com/jmchilton/blend4j/tree/master/src/test/java/com/github/jmchilton/blend4j/galaxy
+[molgensis]: https://github.com/molgenis/molgenis/commit/57d229a8d36fa9dae1155685e85187399863057f
+[transmart]: https://github.com/transmart
+[trait]: https://github.com/jmchilton/blend4j
+[apetkau]: https://github.com/apetkau
+[freekdb]: https://github.com/freekdb
+[dennishendriksen]: https://github.com/dennishendriksen
 
 # Building
 
@@ -35,7 +46,7 @@ blend4j can be tested with [Apache Maven][b1].
 In this default mode, blend4j will use the [galaxy-bootstrap][t1] library to download, configure,
 and run an instance of Galaxy for testing (requiring an Internet connection). blend4j can be tested against an existing instance using the following Java system properties.
 
-        % mvn -Dtest.api.key=<key> -Dtest.galaxy.instance=<url> test
+        % mvn -Dtest.galaxy.key=<key> -Dtest.galaxy.instance=<url> test
 
 The above example will run a variety of tests and make various assumptions - some which may not be true for the supplied API key. Maven can be configured to run [a specific test or tests][t2].
 
