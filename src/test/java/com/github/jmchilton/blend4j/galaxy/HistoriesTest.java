@@ -54,6 +54,6 @@ public class HistoriesTest {
     final HistoryContents contents = contentsList.get(0);
     final HistoryContentsProvenance prov = historiesClient.showProvenance(historyId, contents.getId());    
 
-    Assert.assertEquals("just-checking", instance.getApiKey());
+    Assert.assertEquals("just-checking", instance.getGalaxyUrl());
   }
 }
